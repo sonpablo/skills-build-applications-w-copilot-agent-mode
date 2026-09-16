@@ -1,12 +1,16 @@
 import { useEffect, useState } from 'react'
 import { API_BASE_URL, collectionFromResponse } from '../api.js'
 
+const activitiesApiUrl = import.meta.env.VITE_CODESPACE_NAME
+  ? `https://${import.meta.env.VITE_CODESPACE_NAME}-8000.app.github.dev/api/activities/`
+  : `${API_BASE_URL}/api/activities/`
+
 function Activities() {
   const [activities, setActivities] = useState([])
   const [error, setError] = useState('')
 
   useEffect(() => {
-    fetch(`${API_BASE_URL}/api/activities/`)
+    fetch(activitiesApiUrl)
       .then((response) => response.json())
       .then((payload) => setActivities(collectionFromResponse(payload)))
       .catch((reason) => setError(reason.message))

@@ -1,12 +1,16 @@
 import { useEffect, useState } from 'react'
 import { API_BASE_URL, collectionFromResponse } from '../api.js'
 
+const leaderboardApiUrl = import.meta.env.VITE_CODESPACE_NAME
+  ? `https://${import.meta.env.VITE_CODESPACE_NAME}-8000.app.github.dev/api/leaderboard/`
+  : `${API_BASE_URL}/api/leaderboard/`
+
 function Leaderboard() {
   const [entries, setEntries] = useState([])
   const [error, setError] = useState('')
 
   useEffect(() => {
-    fetch(`${API_BASE_URL}/api/leaderboard/`)
+    fetch(leaderboardApiUrl)
       .then((response) => response.json())
       .then((payload) => setEntries(collectionFromResponse(payload)))
       .catch((reason) => setError(reason.message))

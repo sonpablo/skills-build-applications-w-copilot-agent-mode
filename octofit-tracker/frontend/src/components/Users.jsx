@@ -1,12 +1,16 @@
 import { useEffect, useState } from 'react'
 import { API_BASE_URL, collectionFromResponse } from '../api.js'
 
+const usersApiUrl = import.meta.env.VITE_CODESPACE_NAME
+  ? `https://${import.meta.env.VITE_CODESPACE_NAME}-8000.app.github.dev/api/users/`
+  : `${API_BASE_URL}/api/users/`
+
 function Users() {
   const [users, setUsers] = useState([])
   const [error, setError] = useState('')
 
   useEffect(() => {
-    fetch(`${API_BASE_URL}/api/users/`)
+    fetch(usersApiUrl)
       .then((response) => response.json())
       .then((payload) => setUsers(collectionFromResponse(payload)))
       .catch((reason) => setError(reason.message))
